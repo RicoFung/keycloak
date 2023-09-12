@@ -53,69 +53,103 @@ public class TbUserInfo0aController extends BaseRestController
 	@Autowired
 	private TbUserInfo0aService service;
 
-	@Operation(summary = "新增")
-	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public ChokDto<Object> create(@RequestBody @Validated TbUserInfo0aCreateRequest request)
+//	@Operation(summary = "新增")
+//	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	public ChokDto<Object> create(@RequestBody @Validated TbUserInfo0aCreateRequest request)
+//	{
+//		TbUserInfo0a entity = RequestMapper.INSTANCE.requestToEntity(request);
+//		return service.create(entity);
+//	}
+//
+//	@Operation(summary = "删除")
+//	@RequestMapping(value = "/remove", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	public ChokDto<Object> remove(@RequestBody @Validated TbUserInfo0aRemoveRequest request)
+//	{
+//         return service.remove(request.getTcRowidArray());
+//	}
+//
+//	@Operation(summary = "修改")
+//	@RequestMapping(value = "/modify", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	public ChokDto<Object> modify(@RequestBody @Validated TbUserInfo0aModifyRequest request)
+//	{
+//		TbUserInfo0a entity = RequestMapper.INSTANCE.requestToEntity(request);
+//		return service.modify(entity);
+//	}
+//
+//	@Operation(summary = "明细")
+//	@RequestMapping(value = "/getOne", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	public ChokDto<TbUserInfo0aResult> getOne(@RequestBody @Validated TbUserInfo0aGetOneRequest request)
+//	{
+//		TbUserInfo0aGetOneParam param = RequestMapper.INSTANCE.requestToParam(request);
+//		return service.getOne(param);
+//	}
+//
+//	@Operation(summary = "列表")
+//	@RequestMapping(value = "/getList", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	public ChokDto<List<TbUserInfo0aResult>> getList(@RequestBody @Validated TbUserInfo0aGetListRequest request)
+//	{
+//		TbUserInfo0aGetListParam param = RequestMapper.INSTANCE.requestToParam(request);
+//		return service.getList(param);
+//	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<TbUserInfo0aResult> getOne(@PathVariable Long id)
 	{
-		TbUserInfo0a entity = RequestMapper.INSTANCE.requestToEntity(request);
-		return service.create(entity);
+		TbUserInfo0aGetOneParam param = new TbUserInfo0aGetOneParam();
+		DynamicWhere dw = new DynamicWhere();
+		dw.setTcRowid(id);
+		param.setDynamicWhere(dw);
+		param.setDynamicColumns(new String[]{"tcRowid","tcCode","tcName","tcPassword"});
+		ChokDto<TbUserInfo0aResult> dto = service.getOne(param);
+		TbUserInfo0aResult result = dto.getData();
+		if (result == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(result);
 	}
 
-	@Operation(summary = "删除")
-	@RequestMapping(value = "/remove", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public ChokDto<Object> remove(@RequestBody @Validated TbUserInfo0aRemoveRequest request)
+	@GetMapping("/getOneByCode/{code}")
+	public ResponseEntity<TbUserInfo0aResult> getOneByCode(@PathVariable String code)
 	{
-         return service.remove(request.getTcRowidArray());
+		TbUserInfo0aGetOneParam param = new TbUserInfo0aGetOneParam();
+		DynamicWhere dw = new DynamicWhere();
+		dw.setTcCode(code);
+		param.setDynamicWhere(dw);
+		param.setDynamicColumns(new String[]{"tcRowid","tcCode","tcName","tcPassword"});
+		ChokDto<TbUserInfo0aResult> dto = service.getOne(param);
+		TbUserInfo0aResult result = dto.getData();
+		if (result == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(result);
 	}
 
-	@Operation(summary = "修改")
-	@RequestMapping(value = "/modify", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public ChokDto<Object> modify(@RequestBody @Validated TbUserInfo0aModifyRequest request)
+	@GetMapping("/getOneByName/{name}")
+	public ResponseEntity<TbUserInfo0aResult> getOneByName(@PathVariable String name)
 	{
-		TbUserInfo0a entity = RequestMapper.INSTANCE.requestToEntity(request);
-		return service.modify(entity);
+		TbUserInfo0aGetOneParam param = new TbUserInfo0aGetOneParam();
+		DynamicWhere dw = new DynamicWhere();
+		dw.setTcName(name);
+		param.setDynamicWhere(dw);
+		param.setDynamicColumns(new String[]{"tcRowid","tcCode","tcName","tcPassword"});
+		ChokDto<TbUserInfo0aResult> dto = service.getOne(param);
+		TbUserInfo0aResult result = dto.getData();
+		if (result == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(result);
 	}
-
-	@Operation(summary = "明细")
-	@RequestMapping(value = "/getOne", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public ChokDto<TbUserInfo0aResult> getOne(@RequestBody @Validated TbUserInfo0aGetOneRequest request)
-	{
-		TbUserInfo0aGetOneParam param = RequestMapper.INSTANCE.requestToParam(request);
-		return service.getOne(param);
-	}
-
-	@Operation(summary = "列表")
-	@RequestMapping(value = "/getList", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public ChokDto<List<TbUserInfo0aResult>> getList(@RequestBody @Validated TbUserInfo0aGetListRequest request)
-	{
-		TbUserInfo0aGetListParam param = RequestMapper.INSTANCE.requestToParam(request);
-		return service.getList(param);
-	}
-	
-    @GetMapping("/getOne/{tcRowid}")
-    public ResponseEntity<TbUserInfo0aResult> getOne(@PathVariable Long tcRowid) 
-    {
-    	TbUserInfo0aGetOneParam param = new TbUserInfo0aGetOneParam();
-    	DynamicWhere dw = new DynamicWhere();
-    	dw.setTcRowid(tcRowid);
-    	param.setDynamicWhere(dw);
-    	ChokDto<TbUserInfo0aResult> dto = service.getOne(param);
-    	TbUserInfo0aResult result = dto.getData();
-        if (result == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(result);
-    }
     
     @GetMapping("/getList")
-    public ResponseEntity<List<TbUserInfo0aResult>> getList(@RequestParam(required = false) String tcCode, @RequestParam Integer page, @RequestParam Integer pagesize) 
+    public ResponseEntity<List<TbUserInfo0aResult>> getList(@RequestParam(required = false) String search, @RequestParam Integer first, @RequestParam Integer max)
     {
     	TbUserInfo0aGetListParam param = new TbUserInfo0aGetListParam();
     	com.example.user.model.param.TbUserInfo0aGetListParam.DynamicWhere dw = new com.example.user.model.param.TbUserInfo0aGetListParam.DynamicWhere();
-    	dw.setTcCode(tcCode);
+    	dw.setTcCode(search);
     	param.setDynamicWhere(dw);
-    	param.setPage(page);
-    	param.setPagesize(pagesize);
+		param.setDynamicColumns(new String[]{"tcRowid","tcCode","tcName","tcPassword"});
+    	param.setPage(first);
+    	param.setPagesize(max);
     	ChokDto<List<TbUserInfo0aResult>> dto = service.getList(param);
     	List<TbUserInfo0aResult> result = dto.getData();
     	if (result == null) {
@@ -123,4 +157,12 @@ public class TbUserInfo0aController extends BaseRestController
     	}
     	return ResponseEntity.ok(result);
     }
+
+	@GetMapping("/getCount")
+	public Integer getCount()
+	{
+		ChokDto<Integer> dto = service.getCount(null);
+		Integer result = dto.getData();
+		return result;
+	}
 }
