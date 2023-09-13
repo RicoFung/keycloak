@@ -53,11 +53,14 @@ public class CustomUserStorageProvider implements UserStorageProvider,
         }
         StorageId sid = new StorageId(userModel.getId());
         log.debug("[boolean isValid(RealmModel realmModel, UserModel userModel, CredentialInput credentialInput)] => sid: {}", sid);
-        String code = sid.getExternalId();
-        log.debug("[boolean isValid(RealmModel realmModel, UserModel userModel, CredentialInput credentialInput)] => code: {}", code);
-        User user = http.getOneByCode(code);
+        System.out.println("[boolean isValid(RealmModel realmModel, UserModel userModel, CredentialInput credentialInput)] => sid: " + sid);
+        String eid = sid.getExternalId();
+        log.debug("[boolean isValid(RealmModel realmModel, UserModel userModel, CredentialInput credentialInput)] => eid: {}", eid);
+        System.out.println("[boolean isValid(RealmModel realmModel, UserModel userModel, CredentialInput credentialInput)] => eid: " + eid);
+        User user = http.getOneById(eid);
         String pwd = user.getPassword();
         log.debug("[boolean isValid(RealmModel realmModel, UserModel userModel, CredentialInput credentialInput)] => pwd: {}", pwd);
+        System.out.println("[boolean isValid(RealmModel realmModel, UserModel userModel, CredentialInput credentialInput)] => pwd: " + pwd);
         return pwd.equals(credentialInput.getChallengeResponse());
     }
 
@@ -73,7 +76,7 @@ public class CustomUserStorageProvider implements UserStorageProvider,
         log.debug("[UserModel getUserById(String id, RealmModel realmModel)] => sid: {}", sid);
         String externalId = sid.getExternalId();
         log.debug("[UserModel getUserById(String id, RealmModel realmModel)] => externalId: {}", sid);
-        User user = http.getOneByCode(externalId);
+        User user = http.getOneById(externalId);
         return new UserAdapter(session, realm, model, user);
     }
 

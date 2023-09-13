@@ -58,7 +58,7 @@ public class UsersHttp {
     @SneakyThrows
     public User getOneById(@PathParam("id") String id)
     {
-        String url = String.format("%s/%s", baseUrl, id);
+        String url = baseUrl+"/getOneById/"+id;
         SimpleHttp.Response response = SimpleHttp.doGet(url, httpClient).authBasic(basicUsername, basicPassword).asResponse();
         if (response.getStatus() == 404) {
             throw new WebApplicationException(response.getStatus());

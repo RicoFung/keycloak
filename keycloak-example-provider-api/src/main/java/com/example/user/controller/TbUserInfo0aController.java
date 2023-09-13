@@ -92,8 +92,8 @@ public class TbUserInfo0aController extends BaseRestController
 //		return service.getList(param);
 //	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<TbUserInfo0aResult> getOne(@PathVariable Long id)
+	@GetMapping("/getOneById/{id}")
+	public ResponseEntity<TbUserInfo0aResult> getOneById(@PathVariable Long id)
 	{
 		TbUserInfo0aGetOneParam param = new TbUserInfo0aGetOneParam();
 		DynamicWhere dw = new DynamicWhere();
@@ -129,7 +129,7 @@ public class TbUserInfo0aController extends BaseRestController
 	{
 		TbUserInfo0aGetOneParam param = new TbUserInfo0aGetOneParam();
 		DynamicWhere dw = new DynamicWhere();
-		dw.setTcName(name);
+		dw.setTcCode(name);
 		param.setDynamicWhere(dw);
 		param.setDynamicColumns(new String[]{"tcRowid","tcCode","tcName","tcPassword"});
 		ChokDto<TbUserInfo0aResult> dto = service.getOne(param);
