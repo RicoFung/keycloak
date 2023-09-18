@@ -1,6 +1,8 @@
 package com.example.spi;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import lombok.SneakyThrows;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.keycloak.broker.provider.util.SimpleHttp;
@@ -8,8 +10,6 @@ import org.keycloak.component.ComponentModel;
 import org.keycloak.connections.httpclient.HttpClientProvider;
 import org.keycloak.models.KeycloakSession;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 @Consumes(MediaType.APPLICATION_JSON)
@@ -34,9 +34,13 @@ public class UsersHttp {
     public List<User> getList(@QueryParam("search") String search, @QueryParam("first") Integer first, @QueryParam("max") Integer max)
     {
         String url = baseUrl+"/getList";
-        SimpleHttp simpleHttp = SimpleHttp.doGet(url, httpClient).authBasic(basicUsername, basicPassword)
-                .param("first", String.valueOf(++first))
-                .param("max", String.valueOf(max));
+        SimpleHttp simpleHttp = SimpleHttp
+                .doGet(url, httpClient)
+                .authBasic(basicUsername, basicPassword)
+                .socketTimeOutMillis(30000)
+                .param("first", String.valueOf(first))
+                .param("max", String.valueOf(max))
+                ;
         if (search != null) {
             simpleHttp.param("search", search);
         }
