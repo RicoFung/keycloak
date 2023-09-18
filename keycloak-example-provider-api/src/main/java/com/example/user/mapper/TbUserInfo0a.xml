@@ -1582,7 +1582,7 @@
 	       	<if test="@chok2.devwork.dao.Ognl@isNotEmpty(dynamicWhere.tcActiveTime)"> AND T.TC_ACTIVE_TIME LIKE '%'||#{dynamicWhere.tcActiveTime}||'%'</if>
 	       	<if test="@chok2.devwork.dao.Ognl@isNotEmpty(dynamicWhere.tcCloseUserRowid)"> AND T.TC_CLOSE_USER_ROWID LIKE '%'||#{dynamicWhere.tcCloseUserRowid}||'%'</if>
 	       	<if test="@chok2.devwork.dao.Ognl@isNotEmpty(dynamicWhere.tcCloseTime)"> AND T.TC_CLOSE_TIME LIKE '%'||#{dynamicWhere.tcCloseTime}||'%'</if>
-	       	<if test="@chok2.devwork.dao.Ognl@isNotEmpty(dynamicWhere.tcStatus)"> AND T.TC_STATUS LIKE '%'||#{dynamicWhere.tcStatus}||'%'</if>
+	       	<if test="@chok2.devwork.dao.Ognl@isNotEmpty(dynamicWhere.tcStatus)"> AND T.TC_STATUS = #{dynamicWhere.tcStatus}</if>
 	       	<if test="@chok2.devwork.dao.Ognl@isNotEmpty(dynamicWhere.tcPassword)"> AND T.TC_PASSWORD LIKE '%'||#{dynamicWhere.tcPassword}||'%'</if>
 	       	<if test="@chok2.devwork.dao.Ognl@isNotEmpty(dynamicWhere.tcUserType)"> AND T.TC_USER_TYPE LIKE '%'||#{dynamicWhere.tcUserType}||'%'</if>
 	       	<if test="@chok2.devwork.dao.Ognl@isNotEmpty(dynamicWhere.tcDepartmentRowid)"> AND T.TC_DEPARTMENT_ROWID LIKE '%'||#{dynamicWhere.tcDepartmentRowid}||'%'</if>

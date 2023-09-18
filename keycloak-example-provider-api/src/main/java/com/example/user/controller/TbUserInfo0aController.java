@@ -1,37 +1,24 @@
 package com.example.user.controller;
 
-import java.util.List;
-
+import chok2.devwork.BaseRestController;
+import chok2.devwork.pojo.ChokDto;
+import com.example.user.model.param.TbUserInfo0aGetListParam;
+import com.example.user.model.param.TbUserInfo0aGetOneParam;
+import com.example.user.model.param.TbUserInfo0aGetOneParam.DynamicWhere;
+import com.example.user.model.result.TbUserInfo0aResult;
+import com.example.user.service.TbUserInfo0aService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.user.model.entity.TbUserInfo0a;
-import com.example.user.model.param.TbUserInfo0aGetListParam;
-import com.example.user.model.param.TbUserInfo0aGetOneParam;
-import com.example.user.model.param.TbUserInfo0aGetOneParam.DynamicWhere;
-import com.example.user.model.request.RequestMapper;
-import com.example.user.model.request.TbUserInfo0aCreateRequest;
-import com.example.user.model.request.TbUserInfo0aGetListRequest;
-import com.example.user.model.request.TbUserInfo0aGetOneRequest;
-import com.example.user.model.request.TbUserInfo0aModifyRequest;
-import com.example.user.model.request.TbUserInfo0aRemoveRequest;
-import com.example.user.model.result.TbUserInfo0aResult;
-import com.example.user.service.TbUserInfo0aService;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
-import chok2.devwork.BaseRestController;
-import chok2.devwork.pojo.ChokDto;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "-TbUserInfo0a")
 @RestController(value = "TbUserInfo0aController")
@@ -129,7 +116,7 @@ public class TbUserInfo0aController extends BaseRestController
 	{
 		TbUserInfo0aGetOneParam param = new TbUserInfo0aGetOneParam();
 		DynamicWhere dw = new DynamicWhere();
-		dw.setTcCode(name);
+		dw.setTcName(name);
 		param.setDynamicWhere(dw);
 		param.setDynamicColumns(new String[]{"tcRowid","tcCode","tcName","tcPassword"});
 		ChokDto<TbUserInfo0aResult> dto = service.getOne(param);
@@ -144,13 +131,32 @@ public class TbUserInfo0aController extends BaseRestController
     public ResponseEntity<List<TbUserInfo0aResult>> getList(@RequestParam(required = false) String search, @RequestParam Integer first, @RequestParam Integer max)
     {
     	TbUserInfo0aGetListParam param = new TbUserInfo0aGetListParam();
-    	com.example.user.model.param.TbUserInfo0aGetListParam.DynamicWhere dw = new com.example.user.model.param.TbUserInfo0aGetListParam.DynamicWhere();
-    	dw.setTcCode(search);
-    	param.setDynamicWhere(dw);
+		// 字段
 		param.setDynamicColumns(new String[]{"tcRowid","tcCode","tcName","tcPassword"});
+		// 条件
+    	com.example.user.model.param.TbUserInfo0aGetListParam.DynamicWhere dw = new com.example.user.model.param.TbUserInfo0aGetListParam.DynamicWhere();
+    	if (!search.equals("*"))
+		{
+			dw.setTcCode(search);
+		}
+		dw.setTcStatus("1");
+    	param.setDynamicWhere(dw);
+		// 排序
+		List<Map<String, Object>> dynamicOrder = new ArrayList<>();
+		dynamicOrder.add(new LinkedHashMap<String, Object>()
+		{
+			{
+				put("sortName", "tcRowid");
+				put("sortOrder", "ASC");
+			}
+		});
+		param.setDynamicOrder(dynamicOrder);
+		// 分页
     	param.setPage(first);
     	param.setPagesize(max);
+		// 查询
     	ChokDto<List<TbUserInfo0aResult>> dto = service.getList(param);
+		// 返回
     	List<TbUserInfo0aResult> result = dto.getData();
     	if (result == null) {
     		return ResponseEntity.notFound().build();
@@ -161,7 +167,10 @@ public class TbUserInfo0aController extends BaseRestController
 	@GetMapping("/getCount")
 	public Integer getCount()
 	{
-		ChokDto<Integer> dto = service.getCount(null);
+		TbUserInfo0aGetListParam param = new TbUserInfo0aGetListParam();
+		com.example.user.model.param.TbUserInfo0aGetListParam.DynamicWhere dw = new com.example.user.model.param.TbUserInfo0aGetListParam.DynamicWhere();
+		param.setDynamicWhere(dw);
+		ChokDto<Integer> dto = service.getCount(param);
 		Integer result = dto.getData();
 		return result;
 	}

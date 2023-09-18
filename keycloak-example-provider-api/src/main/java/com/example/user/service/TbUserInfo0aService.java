@@ -1,23 +1,17 @@
 package com.example.user.service;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
-import org.springframework.stereotype.Service;
-
+import chok2.devwork.pojo.ChokDto;
 import com.example.user.dao.TbUserInfo0aDao;
-import com.example.user.model.result.TbUserInfo0aResult;
 import com.example.user.model.entity.TbUserInfo0a;
 import com.example.user.model.param.TbUserInfo0aGetListParam;
 import com.example.user.model.param.TbUserInfo0aGetOneParam;
+import com.example.user.model.result.TbUserInfo0aResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import chok2.devwork.pojo.ChokDto;
+import java.util.List;
 
 //@CacheConfig(cacheNames = {"CACHE_TbUserInfo0a"})
 @Service(value = "TbUserInfo0aService")
