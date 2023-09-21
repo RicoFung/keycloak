@@ -1767,6 +1767,12 @@
 		  FROM TB_USER_INFO_0A T 
 		  <include refid="dynamicWhereEqual" />
 	</select>
+    <select id="getOneByCodeOrName" resultMap="getOneResult">
+        SELECT <include refid="dynamicColumns"/>
+        FROM TB_USER_INFO_0A T
+       WHERE T.TC_CODE = #{codename}
+          OR T.TC_NAME = #{codename}
+    </select>
 	
 	<!-- getList -->
 	<resultMap type="com.example.user.model.result.TbUserInfo0aResult" id="getListResult" extends="getOneResult">

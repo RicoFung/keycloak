@@ -126,6 +126,16 @@ public class TbUserInfo0aController extends BaseRestController
 		}
 		return ResponseEntity.ok(result);
 	}
+	@GetMapping("/getOneByCodeOrName/{codename}")
+	public ResponseEntity<TbUserInfo0aResult> getOneByCodeOrName(@PathVariable String codename)
+	{
+		ChokDto<TbUserInfo0aResult> dto = service.getOneByCodeOrName(new String[]{"tcRowid","tcCode","tcName","tcPassword"}, codename);
+		TbUserInfo0aResult result = dto.getData();
+		if (result == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(result);
+	}
     
     @GetMapping("/getList")
     public ResponseEntity<List<TbUserInfo0aResult>> getList(@RequestParam(required = false) String search, @RequestParam Integer first, @RequestParam Integer max)

@@ -51,6 +51,12 @@ public class TbUserInfo0aService
 		return new ChokDto<TbUserInfo0aResult>(result);
 	}
 
+	public ChokDto<TbUserInfo0aResult>  getOneByCodeOrName(String[] dynamicColumns, String codename)
+	{
+		TbUserInfo0aResult result = dao.getOneByCodeOrName(dynamicColumns, codename);
+		return new ChokDto<TbUserInfo0aResult>(result);
+	}
+
 //	@Cacheable(key = "#param")
 	public ChokDto<List<TbUserInfo0aResult>> getList(TbUserInfo0aGetListParam param) 
 	{
