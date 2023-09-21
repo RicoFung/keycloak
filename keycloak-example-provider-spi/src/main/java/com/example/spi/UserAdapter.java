@@ -22,14 +22,9 @@ public class UserAdapter extends AbstractUserAdapter {
 
     public UserAdapter(KeycloakSession session, RealmModel realm, ComponentModel model, User user) {
         super(session, realm, model);
-        this.storageId = new StorageId(storageProviderModel.getId(), user.getUsername());
+        this.storageId = new StorageId(storageProviderModel.getId(), user.getId());
         this.user = user;
     }
-
-//    @Override
-//    public String getId() {
-//        return String.valueOf(user.getId());
-//    }
 
     @Override
     public String getUsername() {
@@ -171,50 +166,3 @@ public class UserAdapter extends AbstractUserAdapter {
         return UserStorageUtil.userFederatedStorage(session);
     }
 }
-//public class UserAdapter extends AbstractUserAdapterFederatedStorage {
-//    private final User user;
-//    private String keycloakId;
-//
-//    public UserAdapter(KeycloakSession session, RealmModel realm, ComponentModel storageProviderModel, User user) {
-//        super(session, realm, storageProviderModel);
-//        this.user = user;
-//
-//        if (user != null) {
-//            this.keycloakId = StorageId.keycloakId(storageProviderModel, user.getId().toString());
-//        }
-//        setEnabled(true);
-//    }
-//
-//    @Override
-//    public String getId() {
-//        return keycloakId;
-//    }
-//
-//    @Override
-//    public String getUsername() {
-//        return user.getUsername();
-//    }
-//
-//    @Override
-//    public void setUsername(String s) {
-//        user.setUsername(s);
-//    }
-//
-//    @Override
-//    public String getEmail() {
-//        return user.getEmail();
-//    }
-//
-//    @Override
-//    public void setEmail(String email) {
-//        user.setEmail(email);
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "UserAdapter{" +
-//                "user=" + user +
-//                ", keycloakId='" + keycloakId + '\'' +
-//                '}';
-//    }
-//}

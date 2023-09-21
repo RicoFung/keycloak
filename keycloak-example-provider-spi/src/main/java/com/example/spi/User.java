@@ -8,14 +8,14 @@ import java.io.Serializable;
 public class User implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private Long id;
+    private String id;
     private String usercode;
     private String username;
     private String password;
     private String email;
 
     @JsonCreator
-    public User(@JsonProperty("id") long id, @JsonProperty("usercode") String usercode,
+    public User(@JsonProperty("id") String id, @JsonProperty("usercode") String usercode,
                 @JsonProperty("username") String username, @JsonProperty("password") String password, @JsonProperty("email") String email) {
         this.id = id;
         this.usercode = usercode;
@@ -24,11 +24,11 @@ public class User implements Serializable
         this.email = email;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
