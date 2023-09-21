@@ -1,0 +1,1 @@
+org.keycloak.keycloak-themes-22.0.3.jar 为keycloak自带主题。解压后可作为自定义主题的参考。
